@@ -8,7 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Log4j2
 @Service
@@ -25,8 +27,7 @@ public class CompileDataService {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
             String formatTime = simpleDateFormat.format(nowTime);
 
-//            String path = "C:\\compileData\\";
-            String path = "C:\\Users\\user\\";
+            String path = "C:\\compileData\\";
             File folder = new File(path);
 
             if(!folder.exists()) {
@@ -35,7 +36,7 @@ public class CompileDataService {
                 }
             }
 
-            String fileName = "test" + ".jar";
+            String fileName = "Test" + ".java";
             File file = new File(path, fileName);
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
@@ -55,35 +56,30 @@ public class CompileDataService {
 
     public String compileFile(File file) {
         try {
-//            String cdPathCmd = "cd " + absolPath;
-            String javaCmd = "java " + file.getName();
+            String[] commands = new String[] {"cd c:\\compileData", "java " + file.getName()};
+            ProcessBuilder pb = new ProcessBuilder("cmd");
+            pb.redirectErrorStream(false);
 
-            Runtime runtime = Runtime.getRuntime();
-//            Process process = runtime.exec("cmd /c" + cdPathCmd + "\n" + javaCmd);
-            Process process = runtime.exec("cmd /c" + javaCmd);
-//            Process process = runtime.exec("cmd /c" + "ipconfig");
+            Process p = pb.start();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
 
-            InputStreamReader inputStreamReader = new InputStreamReader(process.getInputStream(), "UTF-8");
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-            String line = null;
-            StringBuffer sb = new StringBuffer();
-            while((line = bufferedReader.readLine()) != null){
-                log.info("compileFile LINE : " + line.equals("") == null);
-                sb.append(line);
-                sb.append("\n");
+            for(String cmd : commands) {
+                writer.write(cmd + "\n");
+                writer.flush();
             }
-            int execTime = process.waitFor();
-            log.info("Compile SVC compileFile execTime : " + execTime);
 
-            String result = sb.toString();
-            log.info("Compile SVC compileFile process : " + process);
-            log.info("Compile SVC compileFile inputStreamReader : " + inputStreamReader.read());
-            log.info("Compile SVC compileFile bufferedReader : " + bufferedReader.readLine());
-            log.info("Compile SVC compileFile sBuffer : " + sb);
-            log.info("Compile SVC compileFile result : " + result);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String outputLine = "";
+            String output = "";
+            List<String> result = new ArrayList<>();
+            while((outputLine = reader.readLine()) != null){
+                result.add(outputLine);
+                for(int i=0;i<result.size();i++) {
+                    log.info("RESULT : " + result.get(i));
+                }
+            }
 
-            return result;
+            return output;
         } catch (Exception e) {
             e.printStackTrace();
         }
