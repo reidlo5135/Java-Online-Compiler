@@ -1,0 +1,11 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    root: warn
+    com.jcompile.reidlo: debug
+
+spring:
+  profiles:
+    include: private, local
