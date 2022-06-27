@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,10 +22,6 @@ public class CompileDataService {
     public File convertFile(String beforeCompile) {
         log.info("Compile SVC beforeCompile : " + beforeCompile);
         try {
-            Date nowTime = new Date();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-            String formatTime = simpleDateFormat.format(nowTime);
-
             String path = "C:\\compileData\\";
             File folder = new File(path);
 
@@ -36,7 +31,7 @@ public class CompileDataService {
                 }
             }
 
-            String fileName = "Test" + ".java";
+            String fileName = "Main" + ".java";
             File file = new File(path, fileName);
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){

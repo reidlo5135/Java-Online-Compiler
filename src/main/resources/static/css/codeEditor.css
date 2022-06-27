@@ -1,0 +1,43 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/styles/github.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+#editor-container {
+    position: relative;
+    min-height:50px;
+    max-height:500px;
+    overflow:auto;
+}
+
+#editor-container #s_script, #highlighting-code {
+    position: absolute;
+    top: 0; left: 0;
+    margin: 0;
+}
+
+#editor-container #s_script, #highlighting-code {
+    padding: 5px;
+    font-family: 'Nanum Gothic Coding', monospace;
+    font-size: 19px;
+    line-height: 37px;
+}
+
+#editor-container #s_script {
+    color: transparent;
+    background-color: transparent;
+    z-index: 1;
+    caret-color: red;
+    min-height: 50px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    width:100%;
+}
+
+#highlighting-code {
+    z-index: 0;
+    background:unset;
+    border:0;
+}
+
+#highlighting-code code {
+    font-family: 'Nanum Gothic Coding', monospace;
+}

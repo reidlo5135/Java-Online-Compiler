@@ -11,9 +11,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://hackathon2022-tot-db.cxogw3mpnveh.ap-northeast-2.rds.amazonaws.com/totDB?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&useUnicode=true&serverTimezone=Asia/Seoul
-    username: totAdmin
-    password: III!2022
+    url: jdbc:mysql://localhost:3306/jcompile?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+    username: spring5
+    password: spring5
 
   jpa:
     show-sql: true
