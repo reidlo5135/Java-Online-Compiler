@@ -56,14 +56,15 @@ public class CompileDataService {
 
     public String compileFile(File file) {
         try {
-            String[] commands = new String[] {"cd c:\\compileData", "java " + file.getName()};
+            String[] commands = new String[] {"java " + file.getName(), "exit"};
             ProcessBuilder pb = new ProcessBuilder("cmd");
             pb.redirectErrorStream(false);
-
+            pb.directory(new File("c:\\compileData"));
             Process p = pb.start();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
 
             for(String cmd : commands) {
+                log.info("cmd : " + cmd);
                 writer.write(cmd + "\n");
                 writer.flush();
             }
@@ -77,6 +78,8 @@ public class CompileDataService {
                 for(int i=0;i<result.size();i++) {
                     log.info("RESULT : " + result.get(i));
                 }
+                output = result.get(result.size() -1);
+                log.info("output : " + output);
             }
 
             return output;
