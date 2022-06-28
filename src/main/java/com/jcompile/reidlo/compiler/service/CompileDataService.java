@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Log4j2
@@ -19,15 +18,15 @@ public class CompileDataService {
     private final BaseCompileDataRepository baseCompileDataRepository;
 
     @Transactional
-    public File convertFile(String beforeCompile) {
-        log.info("Compile SVC beforeCompile : " + beforeCompile);
+    public List<String> compileAfterConvertFile(String beforeCompile) {
+        log.info("Compile SVC compileAfterConvertFile beforeCompile : " + beforeCompile);
         try {
             String path = "C:\\compileData\\";
             File folder = new File(path);
 
             if(!folder.exists()) {
                 if(folder.mkdirs()) {
-                    log.info("Compile SVC convertFile folder : "+ folder + " are generated");
+                    log.info("Compile SVC compileAfterConvertFile folder : "+ folder + " are generated");
                 }
             }
 
@@ -38,10 +37,11 @@ public class CompileDataService {
                 writer.write(beforeCompile);
             } catch (Exception e) {
                 e.printStackTrace();
-                log.error("Compile SVC compileFile error occurred : " + e.getMessage());
+                log.error("Compile SVC compileAfterConvertFile error occurred : " + e.getMessage());
             }
-
-            return file;
+            List<String> result = compileFile(file);
+            log.info("Compile SVC compileAfterConvertFile compileFile result : " + result);
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Compile SVC convertFile error occurred : " + e.getMessage());
@@ -49,13 +49,14 @@ public class CompileDataService {
         return null;
     }
 
-    public String compileFile(File file) {
+    private List<String> compileFile(File file) {
         try {
             String[] commands = new String[] {"java " + file.getName(), "exit"};
             ProcessBuilder pb = new ProcessBuilder("cmd");
-            pb.redirectErrorStream(false);
+            pb.redirectErrorStream(true);
             pb.directory(new File("c:\\compileData"));
             Process p = pb.start();
+
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
 
             for(String cmd : commands) {
@@ -70,14 +71,15 @@ public class CompileDataService {
             List<String> result = new ArrayList<>();
             while((outputLine = reader.readLine()) != null){
                 result.add(outputLine);
-                for(int i=0;i<result.size();i++) {
-                    log.info("RESULT : " + result.get(i));
+                if(outputLine.equals("c:\\compileData>exit")) {
+                    break;
                 }
-                output = result.get(result.size() -1);
-                log.info("output : " + output);
+                for(int i=0;i<result.size();i++) {
+                    log.info("Compile SVC compileFile RESULT : " + result.get(i));
+                }
             }
 
-            return output;
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
         }
