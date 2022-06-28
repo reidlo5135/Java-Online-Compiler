@@ -22,7 +22,7 @@
                         this.value=v.substring(0, s)+'\t'+v.substring(e);
                         this.selectionStart=this.selectionEnd=s+1;
                         return false;
-                    }">
+                    }; blockKey(this);">
 class Main {
  	public static void main(String[] args) {
 
@@ -33,27 +33,44 @@ class Main {
         </div>
         <button th:type="submit">제출</button>
     </form>
-    <script type="text/javascript">
-        function update_code() {
-            const result_elem = document.querySelector("#highlighting-code code");
-            const text = document.querySelector("#s_script").value;
-            let html = hljs.highlightAuto(text).value;
-            result_elem.innerHTML =  html.replace(new RegExp("  ", "g"), "&nbsp; ");;
-        }
-
-        function resize() {
-            const editor = document.querySelector('#s_script');
-            editor.style.height = "20px";
-            editor.style.height = (editor.scrollHeight + 5)+"px";
-
-            const editor_div = document.querySelector('#editor-container');
-            editor_div.style.height = (editor.scrollHeight + 5)+"px";
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            update_code();
-            resize();
-        });
-    </script>
+    <div>
+        <table th:inline="text" border="1">
+            <tr th:each="result : ${result}">
+                <td><span th:text="${result}"></span> </td>
+            </tr>
+        </table>
+    </div>
 </body>
+<script type="text/javascript">
+    function blockKey(item) {
+        if(event.keyCode == 9){
+            item.focus();
+            space = " ";
+            item.selection = document.selection.createRange();
+            item.selection.text = space;
+            event.returnValue = false;
+        }
+    }
+
+    function update_code() {
+        const result_elem = document.querySelector("#highlighting-code code");
+        const text = document.querySelector("#s_script").value;
+        let html = hljs.highlightAuto(text).value;
+        result_elem.innerHTML =  html.replace(new RegExp("  ", "g"), "&nbsp; ");;
+    }
+
+    function resize() {
+        const editor = document.querySelector('#s_script');
+        editor.style.height = "20px";
+        editor.style.height = (editor.scrollHeight + 5)+"px";
+
+        const editor_div = document.querySelector('#editor-container');
+        editor_div.style.height = (editor.scrollHeight + 5)+"px";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        update_code();
+        resize();
+    });
+</script>
 </html>
