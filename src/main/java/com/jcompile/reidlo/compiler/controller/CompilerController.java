@@ -7,8 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.io.File;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -23,12 +24,17 @@ public class CompilerController {
     }
 
     @PostMapping(value = "/submit")
-    public String compile(@RequestParam("beforeCompile") String beforeCompile) {
-        log.info("Compile Controller beforeCompile : " + beforeCompile);
-        File file = compileDataService.convertFile(beforeCompile);
-        String result = compileDataService.compileFile(file);
-        log.info("Compile Controller file : " + file);
-        log.info("Compile Controller result : " + result);
-        return "/compileHome";
+    public ModelAndView compileAfterConvert(ModelAndView mav, @RequestParam("beforeCompile") String beforeCompile) {
+        log.info("Compile Controller compileAfterConvert beforeCompile : " + beforeCompile);
+        try {
+            List<String> result = compileDataService.compileAfterConvertFile(beforeCompile);
+            log.info("Compile Controller compileAfterConvert result : " + result);
+            mav.addObject("result", result);
+            mav.setViewName("/compileHome");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("Compile Controller compileAfterConvert Error occurred ");
+        }
+        return mav;
     }
 }
