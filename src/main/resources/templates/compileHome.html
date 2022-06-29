@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Compile</title>
+    <script th:src="@{http://code.jquery.com/jquery-3.3.1.min.js}"></script>
     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.1.0/highlight.min.js}"></script>
     <link rel="stylesheet" type="text/css" th:href="@{/static/css/codeEditor.css}">
 </head>
 <body>
     <h1>Compile HOME</h1>
-    <form th:action="@{/submit}" method="post" enctype="text/plain;UTF-8">
-        <div id="editor-container">
+    <div id="editor-container">
             <textarea
-                    id="s_script"
+                    id="ta_beforeCompile"
                     name="beforeCompile"
                     placeholder="설치 스크립트 입력해주시기 바랍니다."
                     spellcheck="false"
@@ -29,19 +29,43 @@ class Main {
     }
 }
             </textarea>
-            <pre id="highlighting-code" class="hljs"><code></code></pre>
-        </div>
-        <button th:type="submit">제출</button>
-    </form>
-    <div>
-        <table th:inline="text" border="1">
-            <tr th:each="result : ${result}">
-                <td><span th:text="${result}"></span> </td>
-            </tr>
-        </table>
+        <pre id="highlighting-code" class="hljs"><code></code></pre>
+    </div>
+    <button th:type="button" onclick="submitCompile();">제출</button>
+    <div id="result">
+
     </div>
 </body>
 <script type="text/javascript">
+    function submitCompile() {
+        $('#ta_beforeCompile').change(function () {
+            var currentVal = $(this).val();
+            console.log('currentVal : ', currentVal);
+            $('#ta_beforeCompile').val(currentVal);
+        });
+
+        console.log('bCompile : ', $('#ta_beforeCompile').val());
+        $.ajax({
+           type: 'POST',
+           url: '/submit',
+           dataType: 'text',
+           data: {
+               beforeCompile: $('#ta_beforeCompile').val()
+           }
+        }).done(function (result) {
+            const resultJSON = JSON.parse(result);
+            console.log('resultJSON : ', resultJSON);
+
+            if(resultJSON.code === 0) {
+                $('#result').append('<div id="result_child">' + resultJSON.list + '</div>');
+            } else {
+                alert('An Error Occurred');
+            }
+        }).fail(function (jqXHR) {
+            console.log(jqXHR);
+        });
+    }
+
     function blockKey(item) {
         if(event.keyCode == 9){
             item.focus();
@@ -54,13 +78,13 @@ class Main {
 
     function update_code() {
         const result_elem = document.querySelector("#highlighting-code code");
-        const text = document.querySelector("#s_script").value;
+        const text = document.querySelector("#ta_beforeCompile").value;
         let html = hljs.highlightAuto(text).value;
         result_elem.innerHTML =  html.replace(new RegExp("  ", "g"), "&nbsp; ");;
     }
 
     function resize() {
-        const editor = document.querySelector('#s_script');
+        const editor = document.querySelector('#ta_beforeCompile');
         editor.style.height = "20px";
         editor.style.height = (editor.scrollHeight + 5)+"px";
 
