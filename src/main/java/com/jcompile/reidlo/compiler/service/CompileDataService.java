@@ -39,8 +39,10 @@ public class CompileDataService {
                 e.printStackTrace();
                 log.error("Compile SVC compileAfterConvertFile error occurred : " + e.getMessage());
             }
+
             List<String> result = compileFile(file);
             log.info("Compile SVC compileAfterConvertFile compileFile result : " + result);
+
             return result;
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,15 +69,29 @@ public class CompileDataService {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String outputLine = "";
-            String output = "";
             List<String> result = new ArrayList<>();
+
             while((outputLine = reader.readLine()) != null){
                 result.add(outputLine);
-                if(outputLine.equals("c:\\compileData>exit")) {
-                    break;
+                if(outputLine.equals("")){
+                    result.remove(outputLine);
+                    continue;
                 }
-                for(int i=0;i<result.size();i++) {
-                    log.info("Compile SVC compileFile RESULT : " + result.get(i));
+                if(outputLine.equals("Microsoft Windows [Version 10.0.22000.739]")){
+                    result.remove(outputLine);
+                    continue;
+                }
+                if(outputLine.equals("(c) Microsoft Corporation. All rights reserved.")) {
+                    result.remove(outputLine);
+                    continue;
+                }
+                if(outputLine.equals("c:\\compileData>java Main.java")) {
+                    result.remove(outputLine);
+                    continue;
+                }
+                if(outputLine.equals("c:\\compileData>exit")) {
+                    result.remove(outputLine);
+                    break;
                 }
             }
 
