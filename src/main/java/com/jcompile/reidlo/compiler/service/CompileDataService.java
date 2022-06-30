@@ -78,7 +78,7 @@ public class CompileDataService {
                     result.remove(outputLine);
                     continue;
                 }
-                if(outputLine.equals("Microsoft Windows [Version 10.0.22000.739]")){
+                if(outputLine.contains("Microsoft Windows")){
                     result.remove(outputLine);
                     continue;
                 }
