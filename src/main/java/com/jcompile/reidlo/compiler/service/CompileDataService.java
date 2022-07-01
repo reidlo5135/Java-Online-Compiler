@@ -55,6 +55,8 @@ public class CompileDataService {
             ProcessBuilder pb = new ProcessBuilder("cmd");
             pb.redirectErrorStream(true);
             pb.directory(new File("c:\\compileData"));
+            log.info("PB environment : " + pb.environment());
+            log.info("PB environment : " + pb.environment().get("PORT"));
             Process p = pb.start();
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
