@@ -53,7 +53,7 @@ public class CompileDataService {
         try {
             String[] commands = new String[] {"java " + file.getName(),"exit"};
 
-            ProcessBuilder pb = new ProcessBuilder("cmd.exe");
+            ProcessBuilder pb = new ProcessBuilder("cmd");
             Map<String, String> env = pb.environment();
 
             pb.redirectErrorStream(true);
