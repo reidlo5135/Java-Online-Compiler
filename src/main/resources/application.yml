@@ -7,5 +7,9 @@ logging:
     com.jcompile.reidlo: debug
 
 spring:
-  profiles:
-    include: local
+  url:
+    base: http://localhost:8080
+
+  messages:
+    basename: i18n/exception
+    encoding: UTF-8
