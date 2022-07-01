@@ -50,7 +50,7 @@ public class CompileDataService {
 
     private List<String> compileFile(File file) {
         try {
-            String[] commands = new String[] {"java " + file.getName(), "cd c:\\compileData", "exit"};
+            String[] commands = new String[] {"cd c:\\compileData", "java " + file.getName(),"exit"};
 
             ProcessBuilder pb = new ProcessBuilder("cmd");
             pb.redirectErrorStream(true);
