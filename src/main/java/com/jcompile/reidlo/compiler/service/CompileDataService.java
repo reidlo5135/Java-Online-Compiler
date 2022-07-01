@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Service
@@ -52,11 +53,13 @@ public class CompileDataService {
         try {
             String[] commands = new String[] {"java " + file.getName(),"exit"};
 
-            ProcessBuilder pb = new ProcessBuilder("cmd");
+            ProcessBuilder pb = new ProcessBuilder("cmd.exe");
+            Map<String, String> env = pb.environment();
+
             pb.redirectErrorStream(true);
             pb.directory(new File("c:\\compileData"));
-            log.info("PB environment : " + pb.environment());
-            log.info("PB environment : " + pb.environment().get("PORT"));
+            log.info("PB environment : " + env);
+
             Process p = pb.start();
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
