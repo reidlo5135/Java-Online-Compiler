@@ -1,0 +1,1 @@
+web: java -jar build/libs/Java-Online-Compiler-0.0.1-SNAPSHOT.jar
