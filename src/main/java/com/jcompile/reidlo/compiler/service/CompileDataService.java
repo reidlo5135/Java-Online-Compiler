@@ -50,11 +50,11 @@ public class CompileDataService {
 
     private List<String> compileFile(File file) {
         try {
-            String[] commands = new String[] {"cd c:\\compileData", "java " + file.getName(),"exit"};
+            String[] commands = new String[] {"java " + file.getName(),"exit"};
 
             ProcessBuilder pb = new ProcessBuilder("cmd");
             pb.redirectErrorStream(true);
-//            pb.directory(new File("c:\\compileData"));
+            pb.directory(new File("c:\\compileData"));
             Process p = pb.start();
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
