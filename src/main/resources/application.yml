@@ -7,9 +7,10 @@ logging:
     com.jcompile.reidlo: debug
 
 spring:
-  url:
-    base: http://localhost:8080
-
   messages:
     basename: i18n/exception
     encoding: UTF-8
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
