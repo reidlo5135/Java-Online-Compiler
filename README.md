@@ -16,7 +16,7 @@
 <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
 <img src="https://img.shields.io/badge/Intellij IDEA-000000?style=for-the-badge&logo=IntelliJ Idea&logoColor=white"></span>
 
-- Template Engine - Thymeleaf, HTML, CSS
+- Frontend - Thymeleaf, HTML, CSS
 - Backend - Spring Boot, JAVA, REST API
 - Database - MySQL
 - Version Control - Git, Github
