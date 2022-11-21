@@ -1,5 +1,5 @@
 # **Java-Online-Compiler**
-개인 프로젝트(TOY) <br>
+개인(토이) 프로젝트<br>
 <b>VERSION: 1.0.0</b>
 
 ## **Java-Online-Compiler?**
