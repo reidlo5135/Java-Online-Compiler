@@ -17,14 +17,12 @@
 <img src="https://img.shields.io/badge/Intellij IDEA-000000?style=for-the-badge&logo=IntelliJ Idea&logoColor=white"></span>
 
 - Frontend - Thymeleaf, HTML, CSS
-- Backend - Spring Boot, JAVA, REST API
+- Backend - Spring Boot, JAVA
 - Database - MySQL
 - Version Control - Git, Github
 - IDE - IntelliJ IDEA
 
-## <b>주요기능</b>
-
-### [서비스 주요 기능]
+## [서비스 주요 기능]
 - <b>Java Compile</b><br>
 1. 사용자가 입력한 코드를 .java 파일로 변환
 2. Java ProcessBuilder 를 이용하여 명령프로세스(cmd)를 통해 변환된 .java 파일 실행
